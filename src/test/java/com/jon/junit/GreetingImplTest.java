@@ -12,7 +12,7 @@ public class GreetingImplTest {
     //give meaningful names
     //write separate tests for each scenario
 
-    Greeting greeting;
+    private Greeting greeting;
 
     @Before
     public void setup() {
