@@ -62,7 +62,9 @@ public class OrderBOImplTest {
         assertFalse(result);
 
         //use mockito to verify that the method was called
-        verify(dao).create(order);
+        verify(dao, atLeast(1)).create(order);
+        //times(1) number of times that method was run
+        //atLeast(1) at least run number of times
 
     }
 
@@ -70,8 +72,9 @@ public class OrderBOImplTest {
     public void placeOrder_ShouldThrowBOException() throws SQLException, BOException {
 
         Order order = new Order();
-        when(dao.create(order)).thenThrow(SQLException.class);
-        boolean result = bo.placeOrder(order);
+        //matcher, can use any instead of creating an order
+        when(dao.create(any(Order.class))).thenThrow(SQLException.class);
+        bo.placeOrder(order);
     }
 
     @Test
@@ -79,7 +82,8 @@ public class OrderBOImplTest {
 
         Order order = new Order();
 
-        when(dao.read(ORDER_ID)).thenReturn(order);
+        //matchers, any methods, don't need to input exact values
+        when(dao.read(anyInt())).thenReturn(order);
         when(dao.update(order)).thenReturn(1);
 
         boolean result = bo.cancelOrder(ORDER_ID);
